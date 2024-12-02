@@ -44,6 +44,7 @@ async def get_data(lat: float, lon: float, start_time: str, end_time: str):
         FROM `bigquery-public-data.san_francisco.sfpd_incidents`
         WHERE ST_DISTANCE(ST_GEOGPOINT(longitude, latitude), ST_GEOGPOINT({lon}, {lat})) < 1000
         AND timestamp BETWEEN '{start_time_str}' AND '{end_time_str}'
+        AND category != 'NON-CRIMINAL'
         """
         logger.info(f"Running query: {query}")
         query_job = client.query(query)
