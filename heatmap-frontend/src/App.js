@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import MapComponent from "./components/MapComponent";
 import ControlPanel from "./components/ControlPanel";
@@ -23,10 +23,6 @@ function App() {
         console.error("Error fetching data:", error);
       });
   }, [lat, lon, time]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
   return (
     <div className="App">
