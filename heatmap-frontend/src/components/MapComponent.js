@@ -24,7 +24,11 @@ const MapComponent = ({ data, setLat, setLon }) => {
       try {
         const heatLayer = L.heatLayer(
           points.map((point) => [point.latitude, point.longitude, point.value]),
-          { radius: 25 }
+          {
+            radius: 20, // Increase the radius for more accuracy
+            blur: 15,   // Adjust the blur for better visualization
+            maxZoom: 17 // Adjust the maxZoom for better accuracy
+          }
         ).addTo(map);
 
         return () => {
@@ -41,7 +45,7 @@ const MapComponent = ({ data, setLat, setLon }) => {
   // Define the bounds for San Francisco with tighter left and top sides
   const bounds = [
     [37.7, -122.5155], // Southwest corner (tightened left and top sides)
-    [37.81, -122.35], // Northeast corner
+    [37.81, -122.35],  // Northeast corner
   ];
 
   return (

@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from google.cloud import bigquery
-from datetime import datetime, timedelta
+from datetime import datetime
 import os
 import logging
 
@@ -19,10 +19,10 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 @app.get("/data")
-async def get_data(lat: float, lon: float, time: str):
+async def get_data(lat: float, lon: float, start_time: str, end_time: str):
     try:
         # Set the environment variable directly in the code
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/Jeremy/Desktop/sql-project-440823-043703ba649f.json"
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/zheng/Downloads/sql-project-440823-887aecfd7da3.json"
         
         # Verify that the environment variable is set
         google_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
@@ -31,19 +31,20 @@ async def get_data(lat: float, lon: float, time: str):
         
         print("GOOGLE_APPLICATION_CREDENTIALS:", google_credentials)
         
-        # Strip milliseconds and timezone offset from the datetime string
-        time = time.split('.')[0]
-        
         client = bigquery.Client()
-        time_dt = datetime.strptime(time, "%Y-%m-%dT%H:%M:%S")
-        start_time = (time_dt - timedelta(hours=1)).time()
-        end_time = (time_dt + timedelta(hours=1)).time()
+        start_time_dt = datetime.fromisoformat(start_time.replace("Z", "+00:00"))
+        end_time_dt = datetime.fromisoformat(end_time.replace("Z", "+00:00"))
+        
+        # Format the datetime objects to the desired string format
+        start_time_str = start_time_dt.strftime("%Y-%m-%d %H:%M:%S")
+        end_time_str = end_time_dt.strftime("%Y-%m-%d %H:%M:%S")
         
         query = f"""
         SELECT latitude, longitude, 1 as value
         FROM `bigquery-public-data.san_francisco.sfpd_incidents`
         WHERE ST_DISTANCE(ST_GEOGPOINT(longitude, latitude), ST_GEOGPOINT({lon}, {lat})) < 1000
-        AND TIME(timestamp) BETWEEN '{start_time}' AND '{end_time}'
+        AND timestamp BETWEEN '{start_time_str}' AND '{end_time_str}'
+        AND category != 'NON-CRIMINAL'
         """
         logger.info(f"Running query: {query}")
         query_job = client.query(query)
