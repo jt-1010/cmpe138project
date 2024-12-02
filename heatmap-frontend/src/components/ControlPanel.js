@@ -5,8 +5,10 @@ const ControlPanel = ({
   setLat,
   lon,
   setLon,
-  time,
-  setTime,
+  startTime,
+  setStartTime,
+  endTime,
+  setEndTime,
   fetchData,
 }) => {
   // Format the date to match the required format for the datetime-local input type
@@ -37,11 +39,19 @@ const ControlPanel = ({
         />
       </label>
       <label>
-        Time:
+        Start Time:
         <input
           type="datetime-local"
-          value={formatDate(time)}
-          onChange={(e) => setTime(e.target.value)}
+          value={formatDate(startTime)}
+          onChange={(e) => setStartTime(e.target.value)}
+        />
+      </label>
+      <label>
+        End Time:
+        <input
+          type="datetime-local"
+          value={formatDate(endTime)}
+          onChange={(e) => setEndTime(e.target.value)}
         />
       </label>
       <button onClick={fetchData}>Fetch Data</button>
