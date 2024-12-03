@@ -21,8 +21,9 @@ logger = logging.getLogger(__name__)
 @app.get("/data")
 async def get_data(lat: float, lon: float, start_time: str, end_time: str):
     try:
-        # Set the environment variable directly in the code
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/zheng/Downloads/sql-project-440823-887aecfd7da3.json"
+        # Set the environment variable directly in the code C:/Users/Jeremy/Desktop/sql-project-440823-043703ba649f.json
+        #C:/Users/zheng/Downloads/sql-project-440823-887aecfd7da3.json
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/Jeremy/Desktop/sql-project-440823-043703ba649f.json"
         
         # Verify that the environment variable is set
         google_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
