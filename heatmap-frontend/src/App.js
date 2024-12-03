@@ -11,10 +11,10 @@ function App() {
   const [startTime, setStartTime] = useState(new Date().toISOString());
   const [endTime, setEndTime] = useState(new Date().toISOString());
 
-  const fetchData = useCallback(() => {
+  const fetchData = useCallback((category) => {
     axios
       .get("http://127.0.0.1:8000/data", {
-        params: { lat, lon, start_time: startTime, end_time: endTime },
+        params: { lat, lon, start_time: startTime, end_time: endTime, category },
       })
       .then((response) => {
         console.log("Response data:", response.data);
@@ -25,10 +25,10 @@ function App() {
       });
   }, [lat, lon, startTime, endTime]);
 
-  const fetchClusteredData = useCallback(() => {
+  const fetchClusteredData = useCallback((category) => {
     axios
       .get("http://127.0.0.1:8000/data_partitioned", {
-        params: { lat, lon, start_time: startTime, end_time: endTime },
+        params: { lat, lon, start_time: startTime, end_time: endTime, category },
       })
       .then((response) => {
         console.log("Response data:", response.data);
