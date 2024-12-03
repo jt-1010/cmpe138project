@@ -22,7 +22,8 @@ logger = logging.getLogger(__name__)
 @app.get("/data")
 async def get_data(lat: float, lon: float, start_time: str, end_time: str, category: str = None):
     try:
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/zheng/Downloads/sql-project-440823-887aecfd7da3.json"
+        #C:/Users/Jeremy/Desktop/sql-project-440823-043703ba649f.json C:/Users/zheng/Downloads/sql-project-440823-887aecfd7da3.json
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/Jeremy/Desktop/sql-project-440823-043703ba649f.json"
         google_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
         if not google_credentials:
             raise Exception("GOOGLE_APPLICATION_CREDENTIALS environment variable is not set.")
@@ -64,7 +65,7 @@ async def get_data(lat: float, lon: float, start_time: str, end_time: str, categ
 @app.get("/data_partitioned")
 async def get_data_partitioned(lat: float, lon: float, start_time: str, end_time: str, category: str = None):
     try:
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/zheng/Downloads/sql-project-440823-887aecfd7da3.json"
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/Jeremy/Desktop/sql-project-440823-043703ba649f.json"
         google_credentials = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
         if not google_credentials:
             raise Exception("GOOGLE_APPLICATION_CREDENTIALS environment variable is not set.")
