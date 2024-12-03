@@ -25,6 +25,20 @@ function App() {
       });
   }, [lat, lon, startTime, endTime]);
 
+  const fetchClusteredData = useCallback(() => {
+    axios
+      .get("http://127.0.0.1:8000/data_partitioned", {
+        params: { lat, lon, start_time: startTime, end_time: endTime },
+      })
+      .then((response) => {
+        console.log("Response data:", response.data);
+        setData(response.data.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [lat, lon, startTime, endTime]);
+
   return (
     <div className="App">
       <div className="header">
@@ -41,6 +55,7 @@ function App() {
           endTime={endTime}
           setEndTime={setEndTime}
           fetchData={fetchData}
+          fetchClusteredData={fetchClusteredData}
         />
         <MapComponent data={data} setLat={setLat} setLon={setLon} />
       </div>

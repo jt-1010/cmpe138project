@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const ControlPanel = ({
   lat,
@@ -10,7 +10,10 @@ const ControlPanel = ({
   endTime,
   setEndTime,
   fetchData,
+  fetchClusteredData,
 }) => {
+  const [queryType, setQueryType] = useState("unclustered");
+
   // Format the date to match the required format for the datetime-local input type
   const formatDate = (date) => {
     const d = new Date(date);
@@ -18,6 +21,14 @@ const ControlPanel = ({
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(
       d.getDate()
     )}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  };
+
+  const handleFetchData = () => {
+    if (queryType === "clustered") {
+      fetchClusteredData();
+    } else {
+      fetchData();
+    }
   };
 
   return (
@@ -54,7 +65,17 @@ const ControlPanel = ({
           onChange={(e) => setEndTime(e.target.value)}
         />
       </label>
-      <button onClick={fetchData}>Fetch Data</button>
+      <label>
+        Query Type:
+        <select
+          value={queryType}
+          onChange={(e) => setQueryType(e.target.value)}
+        >
+          <option value="unclustered">Unclustered</option>
+          <option value="clustered">Clustered</option>
+        </select>
+      </label>
+      <button onClick={handleFetchData}>Fetch Data</button>
     </div>
   );
 };
